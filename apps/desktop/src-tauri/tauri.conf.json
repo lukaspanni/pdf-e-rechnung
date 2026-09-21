@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "PDF E-Rechnung",
+  "version": "0.1.0",
+  "identifier": "de.pdferechnung.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @app/desktop build:sidecar && pnpm --filter @app/web dev",
+    "devUrl": "http://localhost:3000",
+    "beforeBuildCommand": "pnpm --filter @app/web build --mode desktop && pnpm --filter @app/desktop build:sidecar",
+    "frontendDist": "../../web/dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "PDF E-Rechnung",
+        "width": 1280,
+        "height": 840,
+        "minWidth": 960,
+        "minHeight": 640
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": ["icons/icon.ico", "icons/icon.icns", "icons/icon.png"],
+    "externalBin": ["binaries/einvoice-api"],
+    "resources": {
+      "resources/einvoice-api.mjs": "einvoice-api.mjs"
+    }
+  }
+}

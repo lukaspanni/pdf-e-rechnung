@@ -1,0 +1,21 @@
+diff --git a/dist/shared/facturx.ADScKAJE.mjs b/dist/shared/facturx.ADScKAJE.mjs
+index 604d56846b3a8eee2d066fa34ffc08753ab8c1bd..7225d539b190c2bf8d1ddb0e8d6aec3e1503c364 100644
+--- a/dist/shared/facturx.ADScKAJE.mjs
++++ b/dist/shared/facturx.ADScKAJE.mjs
+@@ -4,6 +4,7 @@ import { PDFDocument } from 'pdf-lib';
+ import { mkdtempSync, writeFileSync, readFileSync, copyFileSync } from 'node:fs';
+ import { tmpdir } from 'node:os';
+ import { join, resolve } from 'node:path';
++import { pathToFileURL } from 'node:url';
+ import { gunzipSync } from 'node:zlib';
+ import SaxonJS from 'saxon-js';
+ import { parse } from 'date-fns';
+@@ -280,7 +281,7 @@ async function getFacturxXsd(level) {
+   const url = resolve(join(import.meta.dirname, FACTURX_SCHEMA[level]));
+   const buffer = await readFile(url);
+   return await resolveXml(buffer, {
+-    url
++    url: pathToFileURL(url).href
+   });
+ }
+ async function getOrderxXsd(level) {

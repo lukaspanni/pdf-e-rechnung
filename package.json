@@ -1,0 +1,29 @@
+{
+  "name": "pdf-e-rechnung",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev": "pnpm --filter @app/web dev",
+    "dev:api": "pnpm --filter @app/api-azure dev",
+    "desktop": "pnpm --filter @app/desktop tauri dev",
+    "desktop:build": "pnpm --filter @app/desktop tauri build",
+    "build": "pnpm --filter @app/web build && pnpm --filter @app/api-azure build",
+    "test": "pnpm --filter @app/web test && vitest run packages/invoice-core/test packages/invoice-extraction/test packages/zugferd-adapter/test packages/einvoice-service/test apps/api-azure/test --environment node",
+    "typecheck": "pnpm --filter @app/web typecheck && pnpm --filter @app/api-azure typecheck",
+    "lint": "pnpm --filter @app/web lint && eslint --config apps/web/eslint.config.js packages/**/*.ts apps/api-azure/**/*.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm check:cloud-imports && pnpm typecheck && pnpm lint && pnpm test",
+    "check:cloud-imports": "node scripts/check-dependency-boundaries.mjs"
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "fast-check": "^4.10.2",
+    "globals": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

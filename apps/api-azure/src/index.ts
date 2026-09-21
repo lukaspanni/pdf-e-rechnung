@@ -1,0 +1,1 @@
+import './functions/generate-einvoice'

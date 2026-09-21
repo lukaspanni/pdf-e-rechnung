@@ -1,0 +1,11 @@
+{
+  "name": "@app/invoice-extraction",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@app/invoice-core": "workspace:*",
+    "@app/pdf-core": "workspace:*"
+  }
+}

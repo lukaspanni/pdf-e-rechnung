@@ -1,0 +1,12 @@
+{
+  "name": "@app/api-contract",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@app/invoice-extraction": "workspace:*",
+    "@app/invoice-core": "workspace:*",
+    "zod": "^4.6.5"
+  }
+}

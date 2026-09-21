@@ -1,0 +1,7 @@
+# Storage account and container must exist before tofu init.
+# Authenticate with Azure CLI or workload identity; do not put keys here.
+resource_group_name  = "terraform-state-rg"
+storage_account_name = "terraformstateexample"
+container_name       = "tfstate"
+key                  = "pdf-e-rechnung/api-azure.tfstate"
+use_azuread_auth     = true

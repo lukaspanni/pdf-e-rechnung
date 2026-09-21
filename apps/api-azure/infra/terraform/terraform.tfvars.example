@@ -1,0 +1,11 @@
+resource_group_name       = "pdf-e-rechnung-api-rg"
+location                  = "westeurope"
+function_app_name         = "pdf-e-rechnung-api-dev"
+storage_account_name     = "pdfeinvoiceapidev"
+application_insights_name = "pdf-e-rechnung-api-dev"
+maximum_instance_count    = 20
+
+tags = {
+  application = "pdf-e-rechnung"
+  environment = "dev"
+}

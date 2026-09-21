@@ -1,0 +1,35 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+catalog:
+  '@tanstack/react-router': latest
+  '@tanstack/router-plugin': latest
+  '@tanstack/eslint-config': latest
+  '@tanstack/router-cli': ^1.132.0
+  '@types/node': ^22.10.2
+  '@types/react': ^19.2.0
+  '@types/react-dom': ^19.2.0
+  '@vitejs/plugin-react': ^6.0.1
+  eslint: ^10.0.0
+  eslint-config-prettier: ^10.1.8
+  globals: ^17.11.0
+  prettier: ^3.8.1
+  react: ^19.2.0
+  react-dom: ^19.2.0
+  typescript: ^6.0.2
+
+  vite: ^8.0.0
+  vitest: ^4.1.11
+
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
+  - unrs-resolver
+
+patchedDependencies:
+  '@stafyniaksacha/facturx@0.6.1': patches/@stafyniaksacha__facturx@0.6.1.patch
