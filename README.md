@@ -49,10 +49,10 @@ default; Vite proxies `/api` to it. Set `PORT` to override the API port, or set
 
 ## Desktop app
 
-The Tauri desktop wrapper serves the same web app and starts the local Node HTTP
-backend as a bundled sidecar. Bun bundles the backend for Node, and the build
-packages the local Node executable with it. Build on the target OS and
-architecture; Node, Bun, and Rust are required.
+The Tauri desktop wrapper serves the same web app and starts the local HTTP
+backend as a standalone Bun sidecar. Bun compiles the backend and runtime into
+a target-specific executable, including for cross-compilation. Bun and Rust are
+required.
 
 ```bash
 pnpm desktop       # development

@@ -19,7 +19,6 @@ pub fn run() {
             let (mut events, child) = app
                 .shell()
                 .sidecar("einvoice-api")?
-                .args([app.path().resource_dir()?.join("einvoice-api.mjs")])
                 .env("PORT", "7071")
                 .spawn()?;
             tauri::async_runtime::spawn(async move {

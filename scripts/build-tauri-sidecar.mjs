@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from 'node:fs/promises'
+import { mkdir } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -6,37 +6,32 @@ import { deflateSync } from 'node:zlib'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const target = process.env.TAURI_ENV_TARGET_TRIPLE ?? rustHostTriple()
-assertCompatibleNodeTarget(target)
+const bunTarget = bunTargetFor(target)
 const extension = target.includes('windows') ? '.exe' : ''
 const executable = resolve(
   root,
   'apps/desktop/src-tauri/binaries',
   `einvoice-api-${target}${extension}`,
 )
-const bundle = resolve(
-  root,
-  'apps/desktop/src-tauri/resources/einvoice-api.mjs',
-)
 const bunExecutable = process.platform === 'win32' ? 'bun.exe' : 'bun'
 
 await mkdir(dirname(executable), { recursive: true })
-await mkdir(dirname(bundle), { recursive: true })
 await writeAppIcons()
 const result = spawnSync(
   bunExecutable,
   [
     'build',
+    '--compile',
+    `--target=${bunTarget}`,
     'apps/api-azure/src/start-local-server.ts',
-    '--target=node',
     // Factur-X's XML parser bundle expects these script-scope bindings.
     '--banner=var/**/abstractNode,HostPlatform',
-    `--outfile=${bundle}`,
+    `--outfile=${executable}`,
   ],
   { cwd: root, stdio: 'inherit' },
 )
 if (result.error) throw result.error
 if (result.status !== 0) process.exit(result.status ?? 1)
-await copyFile(process.execPath, executable)
 
 function rustHostTriple() {
   const result = spawnSync('rustc', ['-vV'], { encoding: 'utf8' })
@@ -47,21 +42,21 @@ function rustHostTriple() {
   return host
 }
 
-function assertCompatibleNodeTarget(triple) {
-  const currentOs = { win32: 'windows', darwin: 'darwin', linux: 'linux' }[
-    process.platform
-  ]
-  const currentArch = { x64: 'x86_64', arm64: 'aarch64' }[process.arch]
-  if (
-    !currentOs ||
-    !currentArch ||
-    !triple.includes(currentOs) ||
-    !triple.startsWith(currentArch)
-  ) {
-    throw new Error(
-      `Bundled Node runtime does not match target ${triple}; build on the target OS and architecture.`,
-    )
-  }
+function bunTargetFor(triple) {
+  const os = triple.includes('windows')
+    ? 'windows'
+    : triple.includes('apple-darwin')
+      ? 'darwin'
+      : triple.includes('linux')
+        ? 'linux'
+        : undefined
+  const arch = triple.startsWith('x86_64-')
+    ? 'x64'
+    : triple.startsWith('aarch64-')
+      ? 'arm64'
+      : undefined
+  if (!os || !arch) throw new Error(`Unsupported Bun sidecar target: ${triple}`)
+  return `bun-${os}-${arch}`
 }
 
 async function writeAppIcons() {
