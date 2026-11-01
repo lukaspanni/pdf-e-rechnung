@@ -27,9 +27,6 @@
     "active": true,
     "targets": "all",
     "icon": ["icons/icon.ico", "icons/icon.icns", "icons/icon.png"],
-    "externalBin": ["binaries/einvoice-api"],
-    "resources": {
-      "resources/einvoice-api.mjs": "einvoice-api.mjs"
-    }
+    "externalBin": ["binaries/einvoice-api"]
   }
 }
