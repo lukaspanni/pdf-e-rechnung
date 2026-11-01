@@ -22,6 +22,9 @@ const result = spawnSync(
   [
     'build',
     '--compile',
+    '--minify',
+    '--bytecode',
+    '--format=esm',
     `--target=${bunTarget}`,
     'apps/api-azure/src/start-local-server.ts',
     // Factur-X's XML parser bundle expects these script-scope bindings.
